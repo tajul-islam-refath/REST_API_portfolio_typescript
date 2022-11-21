@@ -11,7 +11,7 @@ module.exports = (req: Request, res: Response, next: NextFunction) => {
     });
   }
 
-  let email = jwt.verify(token, "swttoken123456")["data"];
+  let email = jwt.verify(token, process.env.KEY)["data"];
   req.headers.email = email;
   next();
 };
