@@ -1,18 +1,22 @@
-import { Schema, model, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const profileSchema: Schema = new Schema(
   {
-    firstName: {
+    name: {
       type: String,
     },
-    lastName: { type: String },
+    shortTitle: { type: String },
     email: { type: String },
     mobile: { type: String },
-    city: { type: String },
-    username: { type: String, unique: true },
-    password: { type: String },
+    birthday: { type: Date },
+    location: { type: String },
+    links: [{ type: String }],
+    coverImage: { type: String },
+    profileImage: { type: String },
+    photo: { type: String },
+    about: { type: String },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const Profile = model("Profile", profileSchema);
