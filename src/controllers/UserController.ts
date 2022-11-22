@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 const jwt = require("jsonwebtoken");
-const Profile = require("../models/Profile");
 const User = require("../models/User");
 
 exports.login = async (req: Request, res: Response) => {
@@ -28,27 +27,5 @@ exports.login = async (req: Request, res: Response) => {
     });
   } catch (err: any) {
     res.status(400).json({ success: "fail", message: err.message });
-  }
-};
-
-exports.createProfile = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const reqBody = req.body;
-    const profile = new Profile(reqBody);
-
-    await profile.save();
-    console.log(profile);
-    res.status(200).json({
-      success: true,
-    });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      data: err,
-    });
   }
 };

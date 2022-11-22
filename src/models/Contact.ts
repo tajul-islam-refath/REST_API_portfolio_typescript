@@ -11,5 +11,5 @@ const conatactSchema = new Schema(
   { timestamps: true }
 );
 
-const Conatact = model("Conatact", conatactSchema);
-module.exports = Conatact;
+const Contact = model("Conatact", conatactSchema);
+export = Contact;

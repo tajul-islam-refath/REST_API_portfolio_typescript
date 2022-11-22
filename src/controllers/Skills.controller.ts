@@ -67,20 +67,31 @@ exports.skillsGetByType = async (req: Request, res: Response) => {
 };
 
 exports.getSkills = async (req: Request, res: Response) => {
+  let email = req.headers.email;
   try {
+    // let skills = await Skills.aggregate([
+    //   { $match: { email: req.headers.email } },
+    //   {
+    //     $group: {
+    //       _id: "$type",
+    //       data: { $push: "$$ROOT" },
+    //     },
+    //   },
+    // ]);
+
     let skills = await Skills.aggregate([
-      { $match: { email: req.headers.email } },
       {
-        $group: {
-          _id: "$type",
-          data: { $push: "$$ROOT" },
+        $facet: {
+          expertise: [{ $match: { email: email, type: "Expertise" } }],
+          comfortable: [{ $match: { email: email, type: "Comfortable" } }],
+          tools: [{ $match: { email: email, type: "Tools" } }],
         },
       },
     ]);
 
     res.status(200).json({
       success: "success",
-      data: skills,
+      skills: skills[0],
     });
   } catch (err: any) {
     res.status(400).json({ success: "failed", message: err.message });

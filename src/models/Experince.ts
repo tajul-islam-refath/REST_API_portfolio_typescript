@@ -13,4 +13,4 @@ const experinceSchema = new Schema(
 );
 
 const Experince = model("Experince", experinceSchema);
-module.exports = Experince;
+export = Experince;

@@ -4,8 +4,8 @@ const educationSchema = new Schema(
   {
     email: { type: String },
     degreeName: { type: String },
-    Institution: { type: String },
-    time: { type: String },
+    institution: { type: String },
+    year: { type: String },
     result: { type: String },
     description: { type: String },
   },
@@ -13,4 +13,4 @@ const educationSchema = new Schema(
 );
 
 const Education = model("Education", educationSchema);
-module.exports = Education;
+export = Education;
