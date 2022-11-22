@@ -11,6 +11,7 @@ const userSchema: Schema = new Schema(
     coverImage: { type: String },
     profileImage: { type: String },
     photo: { type: String },
+    cv: { type: String },
     about: { type: String },
     email: { type: String, unique: true },
     password: { type: String },

@@ -7,7 +7,7 @@ exports.login = async (req: Request, res: Response) => {
   try {
     let user = await User.aggregate([
       { $match: { email: email, password: password } },
-      { $project: { _id: 0, email: 1 } },
+      { $project: { password: 0 } },
     ]);
 
     if (user.length == 0) {
@@ -24,6 +24,42 @@ exports.login = async (req: Request, res: Response) => {
       success: "success",
       data: user[0],
       token,
+    });
+  } catch (err: any) {
+    res.status(400).json({ success: "fail", message: err.message });
+  }
+};
+
+exports.me = async (req: Request, res: Response) => {
+  console.log("req");
+  try {
+    let user = await User.aggregate([
+      { $match: { email: req.headers.email } },
+      { $project: { password: 0 } },
+    ]);
+
+    if (user.length == 0) {
+      return res.status(401).json({ success: "fail", status: "Unauthorized" });
+    }
+
+    res.status(200).json({
+      success: "success",
+      data: user[0],
+    });
+  } catch (err: any) {
+    res.status(400).json({ success: "fail", message: err.message });
+  }
+};
+
+exports.update = async (req: Request, res: Response) => {
+  let reqBody = req.body;
+  let query = { email: req.headers.email };
+  try {
+    await User.findOneAndUpdate(query, reqBody);
+
+    res.status(200).json({
+      success: "success",
+      message: "Profile updated successfully",
     });
   } catch (err: any) {
     res.status(400).json({ success: "fail", message: err.message });
