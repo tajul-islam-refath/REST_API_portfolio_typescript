@@ -1,4 +1,10 @@
-import express, { Express, Router } from "express";
+import express, {
+  Express,
+  Router,
+  Request,
+  Response,
+  ErrorRequestHandler,
+} from "express";
 const app: Express = express();
 
 // import security middleware
@@ -10,6 +16,7 @@ const xss = require("xss-clean");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const morgan = require("morgan");
+const path = require("path");
 
 const router = require("./src/routes/api");
 
@@ -22,6 +29,7 @@ app.use(hpp());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "./src/public")));
 
 // routes implementation
 app.use("/api/v1", router);
@@ -33,5 +41,18 @@ const limits = rateLimiter({
 });
 
 app.use(limits);
+
+//main route
+app.use("/" , (req:Request , res : Response) =>{
+  res.send("Welcome! Now get out")
+})
+
+// error route
+app.use((err: ErrorRequestHandler, req: Request, res: Response) => {
+  res.status(500).json({
+    success: "fail",
+    message: err,
+  });
+});
 
 module.exports = app;
