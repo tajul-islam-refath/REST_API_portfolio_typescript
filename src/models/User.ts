@@ -10,7 +10,7 @@ const userSchema: Schema = new Schema(
     links: [{ type: String }],
     coverImage: { type: String },
     profileImage: { type: String },
-    photo: { type: String },
+    profilePhoto: { type: String },
     cv: { type: String },
     about: { type: String },
     email: { type: String, unique: true },
